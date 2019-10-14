@@ -32,7 +32,7 @@ fn main() -> io::Result<()> {
             .service(web::resource("/graphql").route(web::post().to_async(graphql)))
             .service(web::resource("/graphiql").route(web::get().to_async(graphiql)))
     })
-    .bind("localhost:8080")?
+    .bind("0.0.0.0:8080")?
     .run()
 }
 
@@ -53,7 +53,7 @@ fn graphql(
 }
 
 fn graphiql() -> HttpResponse {
-    let html = graphiql_source("http://localhost:8080/graphql");
+    let html = graphiql_source("http://0.0.0.0:8080/graphql");
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)
