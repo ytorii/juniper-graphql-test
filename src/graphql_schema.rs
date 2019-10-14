@@ -76,22 +76,36 @@ fn establish_connection() -> PgConnection {
 #[juniper::object]
 impl QueryRoot {
     fn members() -> Vec<Member> {
-        use crate::schema::members::dsl::*;
-        let connection = establish_connection();
-        members
-            .limit(100)
-            .load::<Member>(&connection)
-            .expect("Error loading members")
+        // use crate::schema::members::dsl::*;
+        // let connection = establish_connection();
+        // members
+        //     .limit(100)
+        //     .load::<Member>(&connection)
+        //     .expect("Error loading members")
+        vec![
+            Member {
+                id: 1,
+                name: "Link".to_string(),
+                knockouts: 1,
+                team_id: 1,
+            },
+            Member {
+                id: 2,
+                name: "Mario".to_string(),
+                knockouts: 2,
+                team_id: 1,
+            },
+        ]
     }
 
-    fn teams() -> Vec<Team> {
-        use crate::schema::teams::dsl::*;
-        let connection = establish_connection();
-        teams
-            .limit(10)
-            .load::<Team>(&connection)
-            .expect("Error loading teams")
-    }
+    // fn teams() -> Vec<Team> {
+    //     use crate::schema::teams::dsl::*;
+    //     let connection = establish_connection();
+    //     teams
+    //         .limit(10)
+    //         .load::<Team>(&connection)
+    //         .expect("Error loading teams")
+    // }
 }
 
 pub struct MutationRoot;
