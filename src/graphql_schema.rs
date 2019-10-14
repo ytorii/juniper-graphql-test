@@ -67,6 +67,12 @@ impl Team {
 
 pub struct QueryRoot;
 
+fn establish_connection() -> PgConnection {
+    dotenv().ok();
+    let database_url = env::var("DATABASE_URL").expect("No database!");
+    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+}
+
 #[juniper::object]
 impl QueryRoot {
     fn members() -> Vec<Member> {
@@ -113,10 +119,4 @@ pub type Schema = RootNode<'static, QueryRoot, MutationRoot>;
 
 pub fn create_schema() -> Schema {
     Schema::new(QueryRoot {}, MutationRoot {})
-}
-
-fn establish_connection() -> PgConnection {
-    dotenv().ok();
-    let database_url = env::var("DATABASE_URL").expect("No database!");
-    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
 }
