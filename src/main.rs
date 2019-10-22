@@ -14,7 +14,6 @@ use juniper::http::GraphQLRequest;
 
 mod graphql_schema;
 #[allow(dead_code)]
-mod read_request_body;
 mod schema;
 
 use graphql_schema::{create_schema, Schema};
