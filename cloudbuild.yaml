@@ -5,7 +5,6 @@ steps:
       - "-t"
       - "gcr.io/$PROJECT_ID/juniper-graphql-test:latest"
       - "."
-    timeout: 1200s
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/juniper-graphql-test"]
   - name: "gcr.io/cloud-builders/gcloud"
