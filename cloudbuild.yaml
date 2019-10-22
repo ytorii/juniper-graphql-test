@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/juniper-graphql-test:latest'
+      - '.'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ["push", "gcr.io/$PROJECT_ID/juniper-graphql-test"]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'beta'
+      - 'run'
+      - 'deploy'
+      - 'juniper-graphql-test'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/juniper-graphql-test:latest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed' 
+      - '--add-cloudsql-instances'
+      - '$_DB_INSTANCE_NAME'
+      - '--set-env-vars'
+      - 'INSTANCE-CONNECTION-NAME="$_DB_INSTANCE_NAME"'
+      - '--set-env-vars'
+      - 'DATABASE_URL="$_DATABASE_URL"'
