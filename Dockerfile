@@ -1,13 +1,19 @@
-# Use the official Rust image.
-# https://hub.docker.com/_/rust
+FROM rust:1.38.0 as builder
+
+WORKDIR /usr/src/app
+RUN USER=root cargo init
+
+COPY Cargo.toml .
+COPY Cargo.lock .
+
+RUN cargo build --release
+
+COPY src src
+
+RUN cargo build --release
+
 FROM rust:1.38.0
 
- # Copy local code to the container image.
-WORKDIR /usr/src/app
-COPY . .
+COPY --from=builder /usr/src/app/target/release/juniper-graphql-test /bin/
 
- # Install production dependencies and build a release artifact.
-RUN cargo install --path .
-
- # Run the web service on container startup.
 CMD ["juniper-graphql-test"]
