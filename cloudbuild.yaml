@@ -22,7 +22,7 @@ steps:
       - "deploy"
       - "$REPO_NAME"
       - "--image"
-      - "gcr.io/$PROJECT_ID/$REPO_NAME:latest"
+      - "gcr.io/$PROJECT_ID/$REPO_NAME"
       - "--region"
       - "us-central1"
       - "--platform"
@@ -32,6 +32,7 @@ steps:
       - "--set-env-vars"
       - 'INSTANCE-CONNECTION-NAME=$_DB_INSTANCE_NAME'
       - "--set-env-vars"
-      - 'DATABASE_URL=$_DATABASE_URL'
+      - "DATABASE_URL=$_DATABASE_URL"
+      - "--allow-unauthenticated"
 images: ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
 timeout: 1500s
