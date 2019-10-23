@@ -1,4 +1,4 @@
-FROM rust:1.38.0-slim as builder
+FROM rust as builder
 
 WORKDIR /usr/src/app
 RUN USER=root cargo init
@@ -11,12 +11,13 @@ RUN cargo build --release
 RUN rm -r src
 
 COPY src src
-RUN cat src/main.rs
 
 RUN cargo build --release
 
-FROM rust:1.38.0-slim
+FROM rust
 
 COPY --from=builder /usr/src/app/target/release/juniper-graphql-test /bin/
+
+EXPOSE 8080
 
 CMD ["juniper-graphql-test"]
