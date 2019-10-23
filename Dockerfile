@@ -1,7 +1,7 @@
 FROM rust:1.38.0 as builder
 
 WORKDIR /usr/src/app
-RUN USER=root cargo init
+RUN cargo init
 
 COPY Cargo.toml .
 COPY Cargo.lock .
@@ -9,6 +9,8 @@ COPY Cargo.lock .
 RUN cargo build --release
 
 COPY src src
+
+RUN cat src/main.rs
 
 RUN cargo build --release
 
