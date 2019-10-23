@@ -24,9 +24,6 @@ fn main() -> io::Result<()> {
 
     let schema = Arc::new(create_schema());
 
-
-
-
     HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
