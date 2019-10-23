@@ -35,4 +35,4 @@ steps:
       - "DATABASE_URL=$_DATABASE_URL"
       - "--allow-unauthenticated"
 images: ["gcr.io/$PROJECT_ID/$REPO_NAME:latest"]
-timeout: 2000s
+timeout: 3000s
