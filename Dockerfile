@@ -8,7 +8,7 @@ COPY Cargo.lock .
 
 RUN cargo build --release
 
-COPY src src
+COPY src .
 
 RUN cargo build --release
 
