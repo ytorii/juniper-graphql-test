@@ -6,9 +6,10 @@ RUN USER=root cargo init
 COPY Cargo.toml .
 COPY Cargo.lock .
 
-RUN cargo build --release
+RUN cargo build
 
-COPY src .
+COPY src src
+RUN cat src/main.rs
 
 RUN cargo build --release
 
