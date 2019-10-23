@@ -10,6 +10,8 @@ RUN cargo build --release
 
 COPY src src
 
+RUN rm -r target/release
+
 RUN cargo build --release
 
 FROM rust:1.38.0
