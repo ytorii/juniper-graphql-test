@@ -18,4 +18,6 @@ FROM rust:1.38.0
 
 COPY --from=builder /usr/src/app/target/release/juniper-graphql-test /bin/
 
+EXPOSE 8080
+
 CMD ["juniper-graphql-test"]

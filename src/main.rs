@@ -24,15 +24,12 @@ fn main() -> io::Result<()> {
 
     let schema = Arc::new(create_schema());
 
-
-
-
     HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
             .data(schema.clone())
-            .service(web::resource("/graphql").route(web::post().to_async(graphql)))
             .service(web::resource("/graphiql").route(web::get().to_async(graphiql)))
+            .service(web::resource("/graphql").route(web::post().to_async(graphql)))
     })
     .bind("0.0.0.0:8080")?
     .run()
