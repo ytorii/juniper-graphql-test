@@ -10,11 +10,9 @@ RUN cargo build --release
 
 COPY src src
 
-RUN cat src/main.rs
-
 RUN cargo build --release
 
-FROM rust:1.38.0
+FROM rust:1.38.0-slim
 
 COPY --from=builder /usr/src/app/target/release/juniper-graphql-test /bin/
 
