@@ -3,7 +3,6 @@ steps:
     args:
       - "--destination=gcr.io/$PROJECT_ID/$REPO_NAME:latest"
       - "--cache=true"
-      - "--cache-ttl=24h"
   - name: "gcr.io/cloud-builders/gcloud"
     args:
       - "beta"
@@ -23,6 +22,5 @@ steps:
       - "--set-env-vars"
       - "DATABASE_URL=$_DATABASE_URL"
       - "--allow-unauthenticated"
-timeout: 3000s
 options:
   machineType: N1_HIGHCPU_8
