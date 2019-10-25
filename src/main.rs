@@ -1,10 +1,13 @@
 #[macro_use]
 extern crate diesel;
 extern crate juniper;
+extern crate serde_derive;
 
 use std::io;
 use std::sync::Arc;
 
+use actix_cors::Cors;
+use actix_web::http::header;
 use actix_web::middleware::Logger;
 use actix_web::{web, App, Error, HttpResponse, HttpServer};
 
@@ -26,6 +29,14 @@ fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
+            .wrap(
+                Cors::new()
+                    .allowed_origin("http://localhost:3000")
+                    .allowed_methods(vec!["GET", "POST", "OPTION"])
+                    .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+                    .allowed_header(header::CONTENT_TYPE)
+                    .max_age(3600),
+            )
             .wrap(Logger::default())
             .data(schema.clone())
             .service(web::resource("/graphql").route(web::post().to_async(graphql)))
