@@ -2,8 +2,10 @@
 extern crate diesel;
 extern crate juniper;
 extern crate serde_derive;
+extern crate dotenv;
 
 use std::io;
+use std::env;
 use std::sync::Arc;
 
 use actix_cors::Cors;
@@ -19,11 +21,16 @@ mod graphql_schema;
 #[allow(dead_code)]
 mod schema;
 
+use dotenv::dotenv;
 use graphql_schema::{create_schema, Schema};
 
 fn main() -> io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=debug");
     env_logger::init();
+
+    dotenv().ok();
+    let allowed_origin = env::var("ALLOWED_ORIGIN").expect("ALLOWED_ORIGIN must be set");
+    let graphiql_origin = env::var("GRAPHIQL_ORIGIN").expect("GRAPHIQL_ORIGIN must be set");
 
     let schema = Arc::new(create_schema());
 
@@ -31,7 +38,8 @@ fn main() -> io::Result<()> {
         App::new()
             .wrap(
                 Cors::new()
-                    .allowed_origin("http://localhost:3000")
+                    .allowed_origin(&allowed_origin)
+                    .allowed_origin(&graphiql_origin)
                     .allowed_methods(vec!["GET", "POST", "OPTION"])
                     .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
                     .allowed_header(header::CONTENT_TYPE)
@@ -63,7 +71,9 @@ fn graphql(
 }
 
 fn graphiql() -> HttpResponse {
-    let html = graphiql_source("https://juniper-graphql-test-dk64q4mqwa-uc.a.run.app/graphql");
+    dotenv().ok();
+    let graphql_url = env::var("GRAPHQL_URL").expect("GRAPHQL_URL must be set");
+    let html = graphiql_source(&graphql_url);
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(html)

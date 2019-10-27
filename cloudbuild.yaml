@@ -21,6 +21,12 @@ steps:
       - 'INSTANCE-CONNECTION-NAME=$_DB_INSTANCE_NAME'
       - "--set-env-vars"
       - "DATABASE_URL=$_DATABASE_URL"
+      - "--set-env-vars"
+      - "ALLOWED_ORIGIN=$_ALLOWED_ORIGIN"
+      - "--set-env-vars"
+      - "GRAPHQL_URL=$_GRAPHQL_URL"
+      - "--set-env-vars"
+      - "GRAPHIQL_ORIGIN=$_GRAPHIQL_ORIGIN"
       - "--allow-unauthenticated"
 options:
   machineType: N1_HIGHCPU_8
